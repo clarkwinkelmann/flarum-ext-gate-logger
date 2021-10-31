@@ -13,7 +13,7 @@ There is no user-facing interface. It only logs to a file (in `storage/logs` wit
 Performance impact will largely be related to how fast the logger can write to disk.
 If you are using a custom log driver that doesn't write to disk, performance impact might be negligible, as the logic is otherwise identical to native Flarum.
 
-Caveats:
+Caveats (not permanent, only when the extension is enabled):
 
 - The extension completely replaces Flarum's Gate class with a custom one, so as new Flarum updates get released, this extension might cause Flarum to behave differently than a standard installation, or could be missing important security fixes!
 - If an extension overrides `AbstractPolicy::checkAbility()` in its policy class, the method will never be called!
@@ -26,10 +26,11 @@ The first line will then show the gate ability name, followed by information abo
 
 The next lines will show every policy class and method that are resolved for those parameters.
 After each policy the output will be shown (`ALLOW`, `FORCE_ALLOW`, `DENY`, `FORCE_DENY`, `[TRUE]`, `[FALSE]` or `[NULL]`)
-When a method exists on the policy with the ability name and returns non-null, the `can` method on the policy will be skipped. In this case the output will be shown as `SKIPPED`.
+When a method exists on the policy with the ability name and returns non-null, the `can` method on the policy will be skipped.
+In this case the output will be shown as `SKIPPED`.
 
 The final line will show the computed decision and which method lead to that decision.
-It will be one of `(Criteria Priority: <which criteria stopped was matched first>)` if any of the policy classes returned non-null, `(Admin role)` if the user is admin, `(Has permission: key)` id the ability name defaulted to a permission key, or `(Default)` if nothing was matched.
+It will be one of `(Criteria Priority: <which criteria stopped was matched first>)` if any of the policy classes returned non-null, `(Admin role)` if the user is admin, `(Has permission: key)` if the ability name defaulted to a permission key, or `(Default)` if nothing was matched.
 
 If some gate calls are nested, they will appear as separate entries in the order in which the Gate return statements were reached.
 
